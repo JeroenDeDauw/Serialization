@@ -20,11 +20,11 @@ class DataValueSerializer implements DispatchableSerializer {
 	 * @param DataValue $object
 	 *
 	 * @throws UnsupportedObjectException
-	 * @return array|int|string|bool|float
+	 * @return array
 	 */
 	public function serialize( $object ) {
 		if ( $this->isSerializerFor( $object ) ) {
-			return $this->getSerializedDataValue( $object );
+			return $object->toArray();
 		}
 
 		throw new UnsupportedObjectException(
@@ -33,15 +33,15 @@ class DataValueSerializer implements DispatchableSerializer {
 		);
 	}
 
-	protected function getSerializedDataValue( DataValue $dataValue ) {
-		return $dataValue->toArray();
-	}
-
 	/**
 	 * @see DispatchableSerializer::isSerializerFor
+	 *
+	 * @param mixed $object
+	 *
+	 * @return bool
 	 */
 	public function isSerializerFor( $object ) {
-		return is_object( $object ) && $object instanceof DataValue;
+		return $object instanceof DataValue;
 	}
 
 }
